@@ -1,0 +1,406 @@
+ls: cannot access /hiwork/osdrvhi3516a.C01: No such file or directory
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c hi351x_avenc.c -o hi351x_avenc.o
+In file included from hi351x_avenc.c:13:0:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from hi351x_avenc.c:13:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from hi351x_avenc.c:14:0:
+video_config.h:33:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+hi351x_avenc.c: In function ‘SAMPLE_VENC_720P_CLASSIC’:
+hi351x_avenc.c:467:6: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+  int ret = 0;
+      ^
+hi351x_avenc.c:199:6: warning: unused variable ‘i’ [-Wunused-variable]
+  int i = 0;
+      ^
+hi351x_avenc.c:198:13: warning: unused variable ‘s32ChnNum’ [-Wunused-variable]
+     HI_S32  s32ChnNum = 0;   //4:  for snap
+             ^
+hi351x_avenc.c:197:6: warning: unused variable ‘u32Profile’ [-Wunused-variable]
+  int u32Profile = 0;
+      ^
+hi351x_avenc.c:195:14: warning: unused variable ‘enRcMode’ [-Wunused-variable]
+  SAMPLE_RC_E enRcMode[3] = {SAMPLE_RC_VBR,SAMPLE_RC_VBR,SAMPLE_RC_VBR};
+              ^
+hi351x_avenc.c:194:14: warning: unused variable ‘VencChn’ [-Wunused-variable]
+     VENC_CHN VencChn;
+              ^
+hi351x_avenc.c:193:14: warning: unused variable ‘VencGrp’ [-Wunused-variable]
+     VENC_GRP VencGrp;
+              ^
+hi351x_avenc.c:181:17: warning: unused variable ‘enPayLoad’ [-Wunused-variable]
+  PAYLOAD_TYPE_E enPayLoad[3]= {PT_H264, PT_H264, PT_H264};//PT_H264};
+                 ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c hi_mpp_3516.c -o hi_mpp_3516.o
+In file included from hi_mpp_isp_fun.h:5:0,
+                 from hi_mpp_3516.c:1:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from hi_mpp_isp_fun.h:5,
+                 from hi_mpp_3516.c:1:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from hi_mpp_3516.c:2:0:
+video_config.h:33:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+hi_mpp_3516.c: In function ‘get_sensor_iso’:
+hi_mpp_3516.c:13:13: warning: unused variable ‘iso_pre’ [-Wunused-variable]
+  static int iso_pre = 0;
+             ^
+hi_mpp_3516.c: In function ‘set_3d_denoise’:
+hi_mpp_3516.c:134:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c hi_osd.c -o hi_osd.o
+In file included from hi_osd.c:2:0:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from hi_osd.c:2:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from hi_osd.c:3:0:
+video_config.h:33:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+hi_osd.c: In function ‘show_regions’:
+hi_osd.c:247:4: warning: ‘return’ with no value, in function returning non-void [-Wreturn-type]
+    return;
+    ^
+hi_osd.c:253:2: warning: implicit declaration of function ‘show_no_signal’ [-Wimplicit-function-declaration]
+  show_no_signal(!have_signal_input);
+  ^
+hi_osd.c: In function ‘distory_regions’:
+hi_osd.c:260:9: warning: variable ‘s32Ret’ set but not used [-Wunused-but-set-variable]
+  HI_S32 s32Ret = HI_FAILURE;
+         ^
+hi_osd.c: At top level:
+hi_osd.c:268:6: warning: conflicting types for ‘show_no_signal’ [enabled by default]
+ void show_no_signal(bool show)
+      ^
+hi_osd.c:253:2: note: previous implicit declaration of ‘show_no_signal’ was here
+  show_no_signal(!have_signal_input);
+  ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c ive_main.c -o ive_main.o
+In file included from ive_main.c:2:0:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from ive_main.c:2:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+ive_main.c: In function ‘ive_frame_init’:
+ive_main.c:16:5: warning: implicit declaration of function ‘SAMPLE_COMM_IVE_CreateImage’ [-Wimplicit-function-declaration]
+     s32Ret = SAMPLE_COMM_IVE_CreateImage(stFrameInfo,IVE_IMAGE_TYPE_YUV420SP,u16Width,u16Height);
+     ^
+ive_main.c: In function ‘thread_ive’:
+ive_main.c:101:15: warning: comparison between ‘enum <anonymous>’ and ‘HI_BOOL’ [-Wenum-compare]
+  while (false == s_bStopSignal)
+               ^
+ive_main.c:130:20: warning: initialization makes pointer from integer without a cast [enabled by default]
+   char* data_ptr = stFrameInfo.stVFrame.u32PhyAddr[0];
+                    ^
+ive_main.c:131:3: warning: passing argument 1 of ‘HI_MPI_SYS_Mmap’ makes integer from pointer without a cast [enabled by default]
+   char* Image_data_ptr = (HI_CHAR*) HI_MPI_SYS_Mmap(data_ptr, u32Size);
+   ^
+In file included from /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm.h:30:0,
+                 from stdafx.h:38,
+                 from ive_main.c:2:
+/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include/mpi_sys.h:76:10: note: expected ‘HI_U32’ but argument is of type ‘char *’
+ HI_VOID* HI_MPI_SYS_Mmap(HI_U32 u32PhyAddr, HI_U32 u32Size);
+          ^
+ive_main.c:135:4: warning: ‘return’ with no value, in function returning non-void [-Wreturn-type]
+    return;
+    ^
+ive_main.c:188:4: warning: implicit declaration of function ‘set_vpss_chncrop’ [-Wimplicit-function-declaration]
+    set_vpss_chncrop(g_VpssGrp,VPSS_CHN_VO, x, y);
+    ^
+ive_main.c:234:4: warning: return makes pointer from integer without a cast [enabled by default]
+    return s32Ret;
+    ^
+ive_main.c:73:10: warning: unused variable ‘ViChn’ [-Wunused-variable]
+  VI_CHN  ViChn = 0;
+          ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c LANServer.c -o LANServer.o
+In file included from LANServer.h:11:0,
+                 from LANServer.c:8:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from LANServer.h:11,
+                 from LANServer.c:8:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+LANServer.c: In function ‘LANServer_thread’:
+LANServer.c:62:4: warning: implicit declaration of function ‘get_title’ [-Wimplicit-function-declaration]
+    get_title( (void*)&sm );
+    ^
+LANServer.c:78:5: warning: implicit declaration of function ‘get_firmware_version’ [-Wimplicit-function-declaration]
+     get_firmware_version( (void*)&sm2 );
+     ^
+LANServer.c:89:4: warning: too many arguments for format [-Wformat-extra-args]
+    sprintf( pNetData->data+strlen(pNetData->data), "wifi:,", 0 ); 
+    ^
+LANServer.c:89:4: warning: too many arguments for format [-Wformat-extra-args]
+LANServer.c:98:4: warning: implicit declaration of function ‘get_device_type’ [-Wimplicit-function-declaration]
+    DVR_TYPE_ID dev = get_device_type();
+    ^
+LANServer.c:124:5: warning: implicit declaration of function ‘login’ [-Wimplicit-function-declaration]
+     ver = login( (char*)pNetData, &au );
+     ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c main.c -o main.o
+In file included from main.c:30:0:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from main.c:30:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from main.c:31:0:
+video_config.h:33:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+main.c: In function ‘thread_main’:
+main.c:175:9: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+  int fd,ret;
+         ^
+main.c: In function ‘main’:
+main.c:400:2: warning: implicit declaration of function ‘init_system_info’ [-Wimplicit-function-declaration]
+  init_system_info();
+  ^
+main.c:407:2: warning: implicit declaration of function ‘init_lan_probe’ [-Wimplicit-function-declaration]
+  ret = init_lan_probe();
+  ^
+main.c:428:1: warning: label ‘cleanup’ defined but not used [-Wunused-label]
+ cleanup:
+ ^
+main.c:384:10: warning: unused variable ‘status’ [-Wunused-variable]
+  void   *status   = THREAD_SUCCESS;
+          ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c net_config.c -o net_config.o
+In file included from net_config.c:30:0:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from net_config.c:30:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+net_config.c: In function ‘random_ether_addr’:
+net_config.c:718:32: warning: variable ‘ethaddr_high’ set but not used [-Wunused-but-set-variable]
+     unsigned long ethaddr_low, ethaddr_high;
+                                ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c network_gv.c -o network_gv.o
+In file included from network_gv.c:3:0:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from network_gv.c:3:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from network_gv.c:7:0:
+video_config.h:33:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+network_gv.c:16:0: warning: "dpf" redefined [enabled by default]
+ #define dpf(fmt, args...) printf("[network_gv.c]--%d: " fmt, __LINE__, ##args)
+ ^
+In file included from network_gv.c:3:0:
+stdafx.h:76:0: note: this is the location of the previous definition
+ #define dpf(fmt, args...) printf("[%s]--%d: " fmt, __FILE__,__LINE__, ##args)
+ ^
+network_gv.c: In function ‘login’:
+network_gv.c:130:3: warning: implicit declaration of function ‘device_info’ [-Wimplicit-function-declaration]
+   int d_len = device_info( d_info );
+   ^
+network_gv.c: In function ‘set_video_color’:
+network_gv.c:597:13: warning: unused variable ‘qid’ [-Wunused-variable]
+  static int qid = -1;
+             ^
+network_gv.c: In function ‘set_network_lan’:
+network_gv.c:931:2: warning: implicit declaration of function ‘net_set_ifaddr’ [-Wimplicit-function-declaration]
+  if (net_set_ifaddr(nicname, lan.ip.s_addr) < 0)
+  ^
+network_gv.c:938:2: warning: implicit declaration of function ‘net_get_gateway’ [-Wimplicit-function-declaration]
+  sys_ip.s_addr = net_get_gateway();
+  ^
+network_gv.c:943:3: warning: implicit declaration of function ‘net_set_gateway’ [-Wimplicit-function-declaration]
+   if (net_set_gateway(lan.gateway.s_addr) < 0)
+   ^
+network_gv.c:953:2: warning: implicit declaration of function ‘net_get_dns’ [-Wimplicit-function-declaration]
+  sys_ip.s_addr = net_get_dns();
+  ^
+network_gv.c:957:3: warning: implicit declaration of function ‘net_set_dns’ [-Wimplicit-function-declaration]
+   if (net_set_dns(inet_ntoa(lan.dns)) < 0)
+   ^
+network_gv.c:965:2: warning: implicit declaration of function ‘net_get_netmask’ [-Wimplicit-function-declaration]
+  sys_ip.s_addr = net_get_netmask(nicname);
+  ^
+network_gv.c:969:3: warning: implicit declaration of function ‘net_set_netmask’ [-Wimplicit-function-declaration]
+   if ( net_set_netmask(nicname, lan.netmask.s_addr) < 0 )
+   ^
+network_gv.c:1016:2: warning: implicit declaration of function ‘save_network’ [-Wimplicit-function-declaration]
+  save_network(&(g_pSysInfo->lan_config.net));
+  ^
+network_gv.c: In function ‘set_3D_nf_level’:
+network_gv.c:1230:17: warning: implicit declaration of function ‘set_picture_3d_nf_level’ [-Wimplicit-function-declaration]
+                 set_picture_3d_nf_level(level);
+                 ^
+network_gv.c: In function ‘thread_network_control’:
+network_gv.c:1618:3: warning: passing argument 2 of ‘accept’ from incompatible pointer type [enabled by default]
+   sock_client = accept(sock, &addr, &addr_len);
+   ^
+In file included from stdafx.h:24:0,
+                 from network_gv.c:3:
+/opt/hisi-linux/x86-arm/arm-hisiv300-linux/target/usr/include/sys/socket.h:214:12: note: expected ‘struct sockaddr * __restrict__’ but argument is of type ‘struct sockaddr_in *’
+ extern int accept (int __fd, __SOCKADDR_ARG __addr,
+            ^
+network_gv.c:1618:3: warning: pointer targets in passing argument 3 of ‘accept’ differ in signedness [-Wpointer-sign]
+   sock_client = accept(sock, &addr, &addr_len);
+   ^
+In file included from stdafx.h:24:0,
+                 from network_gv.c:3:
+/opt/hisi-linux/x86-arm/arm-hisiv300-linux/target/usr/include/sys/socket.h:214:12: note: expected ‘socklen_t * __restrict__’ but argument is of type ‘int *’
+ extern int accept (int __fd, __SOCKADDR_ARG __addr,
+            ^
+network_gv.c:1643:1: warning: label ‘cleanup’ defined but not used [-Wunused-label]
+ cleanup:
+ ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c util.c -o util.o
+In file included from util.h:7:0,
+                 from util.c:1:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from util.h:7,
+                 from util.c:1:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+util.c:130:0: warning: "LOG_FILE" redefined [enabled by default]
+ #define LOG_FILE "/tmp/run_log"
+ ^
+In file included from util.c:1:0:
+util.h:41:0: note: this is the location of the previous definition
+ #define LOG_FILE  "/mnt/mtd/etc/logfile.log"
+ ^
+util.c: In function ‘get_network’:
+util.c:554:4: warning: too many arguments for format [-Wformat-extra-args]
+    sstw_error("err_network_file", ERR_READ_CFG );
+    ^
+util.c:564:3: warning: implicit declaration of function ‘save_network’ [-Wimplicit-function-declaration]
+   save_network( &(SysInfoDefault.lan_config.net) );
+   ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c video_config.c -o video_config.o
+In file included from video_config.h:5:0,
+                 from video_config.c:2:
+stdafx.h:35:0: warning: "HI_XXXX" redefined [enabled by default]
+ #define HI_XXXX
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from stdafx.h:45:0,
+                 from video_config.h:5,
+                 from video_config.c:2:
+common2.h:984:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from video_config.c:2:0:
+video_config.h:33:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+video_config.c: In function ‘init_av_config’:
+video_config.c:152:3: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘SSTW_SIZE_T’ [-Wformat=]
+   sstw_error( "get pic size wrong. [%d] ", pic_size );
+   ^
+video_config.c: In function ‘init_video_decode’:
+video_config.c:328:2: warning: implicit declaration of function ‘get_sensor_sharpen’ [-Wimplicit-function-declaration]
+  get_sensor_sharpen();
+  ^
+video_config.c: In function ‘get_stream_res’:
+video_config.c:381:4: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘SSTW_SIZE_T’ [-Wformat=]
+    sstw_error( "get pic size wrong. [%d] ", pic_size );
+    ^
+video_config.c: In function ‘set_picture_flip’:
+video_config.c:576:9: warning: unused variable ‘ViChn’ [-Wunused-variable]
+  VI_CHN ViChn = 0;
+         ^
+video_config.c: In function ‘set_picture_exposure_compensation’:
+video_config.c:643:2: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘double (*)(double)’ [-Wformat=]
+  dpf( "the current expCompensation: %d, new exp = %d\n", stExpAttr.stAuto.u8Compensation, exp );
+  ^
+video_config.c: At top level:
+video_config.c:753:6: warning: conflicting types for ‘get_sensor_sharpen’ [enabled by default]
+ void get_sensor_sharpen()
+      ^
+video_config.c:328:2: note: previous implicit declaration of ‘get_sensor_sharpen’ was here
+  get_sensor_sharpen();
+  ^
+video_config.c: In function ‘set_exposure_time’:
+video_config.c:823:2: warning: implicit declaration of function ‘set_slowframe_rate’ [-Wimplicit-function-declaration]
+  set_slowframe_rate(30,30);
+  ^
+video_config.c: At top level:
+video_config.c:973:6: warning: conflicting types for ‘set_slowframe_rate’ [enabled by default]
+ void set_slowframe_rate( int fps_vi, int fps )
+      ^
+video_config.c:823:2: note: previous implicit declaration of ‘set_slowframe_rate’ was here
+  set_slowframe_rate(30,30);
+  ^
+video_config.c: In function ‘set_slowframe_rate’:
+video_config.c:987:6: warning: unused variable ‘fps_rate’ [-Wunused-variable]
+  int fps_rate = (fps_vi << 4) / fps; //0x14: set vi to 20 fps
+      ^
+video_config.c: In function ‘set_picture_3d_nf_level’:
+video_config.c:1090:13: warning: ‘return’ with a value, in function returning void [enabled by default]
+             return s32Ret;
+             ^
+video_config.c:1095:13: warning: ‘return’ with a value, in function returning void [enabled by default]
+             return -1;
+             ^
+video_config.c:1102:13: warning: ‘return’ with a value, in function returning void [enabled by default]
+             return s32Ret;
+             ^
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/loadbmp.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/loadbmp.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_audio.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_audio.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_isp.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_isp.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_ive.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_ive.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_sys.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_sys.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vda.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vda.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_venc.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_venc.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vi.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vi.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vo.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vo.o
+arm-hisiv300-linux-gcc -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -c /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vpss.c -o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vpss.o
+arm-hisiv300-linux-g++ -Wall -g -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/include -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/component/acodec -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tw2865 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/tlv320aic31 -I/home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/extdrv/ak7756en -Dhi3516a -DHICHIP=0x3516A100 -DSENSOR_TYPE=OMNIVISION_OV4689_MIPI_4M_30FPS -DHI_RELEASE -DHI_XXXX -lpthread -lm -ldl -DISP_V2 -DHI_ACODEC_TYPE_INNER -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon-vfpv4 -ffunction-sections -mno-unaligned-access -fno-aggressive-loop-optimizations -ldl -I../include -D_DEBUG -g -o ipc_venc hi351x_avenc.o hi_mpp_3516.o hi_osd.o ive_main.o LANServer.o main.o net_config.o network_gv.o util.o video_config.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/loadbmp.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_audio.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_isp.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_ive.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_sys.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vda.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_venc.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vi.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vo.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/sample_16A_opencv/3516a_cvbs_cam/../common/sample_comm_vpss.o /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libmpi.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libive.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libVoiceEngine.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libupvqe.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libdnvqe.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libisp.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/libsns_ov4689.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/lib_cmoscfg.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/lib_iniparser.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/lib_hiae.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/lib_hiawb.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/lib_hiaf.a /home/his3516a/Hi3516A_SDK_V1.0.6.0/mpp/lib/lib_hidefog.a -lpthread -lm -lrt -L./lib -lpkdetectcv  -lopencv_core -lopencv_highgui -lopencv_imgproc 
+cp ipc_venc release

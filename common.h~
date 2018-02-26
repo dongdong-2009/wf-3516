@@ -1,0 +1,23 @@
+#ifndef __common_H__
+#define __common_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define _HI3516A
+//#define  _SAVEIMAGE
+//#define  _WRISTDETECT
+//#define  _BOXDETECT
+//#define _LKT4200_
+//#define _CAMFLIP90
+#define _NOTHREAD
+//#define _PRINTF
+
+//#define _SHOW
+#define _THREAD_CAMMER_PARAM
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

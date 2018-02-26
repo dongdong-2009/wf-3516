@@ -1,0 +1,354 @@
+#include "stdafx.h"
+#include "ive_main.h"
+#include "pkDetectCV.h"
+
+static HI_BOOL s_bStopSignal = true;
+extern SysInfo * g_pSysInfo;
+extern VPSS_GRP g_VpssGrp ;
+extern int *g_sock;
+HI_S32 ive_frame_init(IVE_SRC_IMAGE_S * stFrameInfo, HI_U16 u16Width, HI_U16 u16Height)
+{
+    HI_S32 s32Ret = HI_SUCCESS;
+    
+   	memset(stFrameInfo,0,sizeof(IVE_SRC_IMAGE_S));
+
+    s32Ret = SAMPLE_COMM_IVE_CreateImage(stFrameInfo,IVE_IMAGE_TYPE_YUV420SP,u16Width,u16Height);
+    if(s32Ret != HI_SUCCESS)
+    {
+       SAMPLE_PRT("SAMPLE_COMM_IVE_CreateImage fail error(0x%x)\n", s32Ret);
+    }  
+    
+	return s32Ret;        
+}
+
+HI_S32 ive_dma_frame(VIDEO_FRAME_INFO_S *stFrameInfo, IVE_SRC_IMAGE_S *stFrameDst)
+{
+    HI_S32 s32Ret = HI_SUCCESS;
+	IVE_DATA_S stSrc;
+	IVE_DATA_S stDst;	
+    HI_BOOL bInstant = HI_FALSE;
+    HI_BOOL bBlock = HI_TRUE;
+    HI_BOOL bFinish = HI_FALSE;
+    IVE_HANDLE IveHandle;
+	IVE_DMA_CTRL_S stDmaCtrl = {IVE_DMA_MODE_DIRECT_COPY,0,0,0,0};
+
+	stSrc.pu8VirAddr = (HI_U8*)stFrameInfo->stVFrame.pVirAddr[0];
+	stSrc.u32PhyAddr = stFrameInfo->stVFrame.u32PhyAddr[0];
+	stSrc.u16Stride = (HI_U16)stFrameInfo->stVFrame.u32Stride[0];
+	stSrc.u16Width = (HI_U16)stFrameInfo->stVFrame.u32Width;
+	stSrc.u16Height = stFrameInfo->stVFrame.u32Height*3/2;			//sp420
+
+	stDst.pu8VirAddr = stFrameDst->pu8VirAddr[0];
+	stDst.u32PhyAddr = stFrameDst->u32PhyAddr[0];
+	stDst.u16Stride = (HI_U16)stFrameDst->u16Stride[0];
+	stDst.u16Width = (HI_U16)stFrameDst->u16Width;
+	stDst.u16Height = stFrameDst->u16Height*3/2;
+		
+	bInstant = HI_TRUE;        
+	s32Ret = HI_MPI_IVE_DMA(&IveHandle,&stSrc,&stDst,&stDmaCtrl,bInstant);
+	if (HI_SUCCESS != s32Ret)
+	{
+		SAMPLE_PRT("HI_MPI_IVE_DMA fail,Error(%#x)\n",s32Ret);
+		return s32Ret;
+	}
+		 
+	s32Ret = HI_MPI_IVE_Query(IveHandle, &bFinish, bBlock);		
+	while(HI_ERR_IVE_QUERY_TIMEOUT == s32Ret)
+	{
+		usleep(100);					
+		s32Ret = HI_MPI_IVE_Query(IveHandle,&bFinish,bBlock);	
+	}
+
+	return s32Ret;
+}
+
+int rate_number = 0;
+
+#define  FRAME_W  2592
+#define  FRAME_H  1520
+
+
+void* thread_ive(void * arg)
+{
+	HI_S32 s32Ret = 0;
+	HI_S32 s32GetFrameMilliSec = 40;  //steven 2017-01-13  2000;
+    VPSS_CHN VpssChn = VPSS_EXT_CHN2;//VPSS_CHN_MAIN;//VPSS_EXT_CHN2;//VPSS_CHN_SUB;	//sub stream, vga
+	VI_CHN		ViChn = 0;
+	VIDEO_FRAME_INFO_S	stFrameInfo;
+	int u32Size = 0;
+
+	s_bStopSignal = false;
+
+	int u32Depth = 1; //steven 2017-01-13  3;
+	//s32Ret = HI_MPI_VI_SetFrameDepth(ViChn, u32Depth);
+	s32Ret = HI_MPI_VPSS_SetDepth(g_VpssGrp,VpssChn,u32Depth);
+	if (HI_SUCCESS != s32Ret)
+        {
+            sstw_error("HI_MPI_VPSS_SetDepth failed, err = 0x%x!", s32Ret);
+        }
+
+//#define _test_
+
+#ifdef _test_
+	int n = 0;
+	FILE * fp = NULL;       
+	fp = fopen("test.sp420", "wb");
+	if (fp <= 0 )
+	{
+		printf("open file failedxxxxxxxxxx\n");
+	}
+#endif
+
+	int frame_init = 0;
+	
+	while (false == s_bStopSignal)
+        {    
+		s32Ret = HI_MPI_VPSS_GetChnFrame( g_VpssGrp, VpssChn, &stFrameInfo, s32GetFrameMilliSec);       
+		//s32Ret = HI_MPI_VI_GetFrame(ViChn, &stFrameInfo, s32GetFrameMilliSec);
+		if (HI_SUCCESS != s32Ret)
+		{
+                    sstw_error("HI_MPI_VPSS_GetChnFrame fail,Error(%#x)",s32Ret);
+			//steven 2017-01-13      usleep(s32GetFrameMilliSec*1000);
+		    usleep(s32GetFrameMilliSec);
+                    continue;
+                }
+
+		if (frame_init == 0)
+		{	
+			pkDetectCvInit();
+			setParamCameraWH(stFrameInfo.stVFrame.u32Width, stFrameInfo.stVFrame.u32Height);					
+			unsigned char temp1 = randNum();
+			unsigned char randData = temp1 ^ 0xAE;
+			setParamRandNum(randData);
+
+			
+			
+			u32Size = (stFrameInfo.stVFrame.u32Stride[0]) * (stFrameInfo.stVFrame.u32Height) * 3 / 2;
+			
+			dpf("ive w = %d, h = %d\n, Stride = %d, , Stride1 = %d, Stride2 = %d, u32Size = %d", 
+				stFrameInfo.stVFrame.u32Width, stFrameInfo.stVFrame.u32Height, stFrameInfo.stVFrame.u32Stride[0],
+				stFrameInfo.stVFrame.u32Stride[1], stFrameInfo.stVFrame.u32Stride[2], u32Size);
+		
+			frame_init = 1;
+		}
+		
+		char* data_ptr = stFrameInfo.stVFrame.u32PhyAddr[0];
+		char* Image_data_ptr = (HI_CHAR*) HI_MPI_SYS_Mmap(data_ptr, u32Size);
+		if (HI_NULL == Image_data_ptr)
+		{
+			sstw_error("HI_MPI_SYS_Mmap failed");
+			return;
+		}
+
+		//char* Image_data_ptr = stFrameInfo.stVFrame.u32PhyAddr[0];
+		
+		targetCoordinate cor;
+			
+//steven 2017-01-13		rate_number++;
+	//	if (0)
+		{
+//steven 2017-01-13			struct timeval tv1, tv2;
+//steven 2017-01-13			gettimeofday(&tv1, NULL);
+			
+			cor = pkDetectCvFun(Image_data_ptr);
+			 unsigned char gray = pkReturnAvrGray();
+			
+			
+			
+
+			if(g_sock)
+			{
+				char buffer[6] = { 0xc4, 0x00, 0x00, 0x00, 0x06, 0x00 };
+				struct NETDATA * nd = (struct NETDATA *)buffer;
+				
+				nd->operate = gray;
+				
+				//dpf( "should send back: sock=%d\n", *g_sock );
+				int sent = send( *g_sock, nd, nd->len, 0 );
+				//dpf( "send %d\n",sent );
+				if ( sent != nd->len )
+				{
+					dpf( "send failed\n" );
+			
+				}
+			}
+
+			//autoAdjustCammerParam(gray);
+			//if(gray > 0)
+			//	dpf( "get gray is %d\n",gray);
+			
+//steven 2017-01-13			gettimeofday(&tv2, NULL);
+
+//steven 2017-01-13			unsigned int diff = 0;
+//
+//			if (tv2.tv_sec == tv1.tv_sec)
+//			{
+//				diff = (tv2.tv_usec - tv1.tv_usec)/1000;
+//				//printf("millsec1 = %d\n", diff);
+//			}
+//			else
+//			{
+//				diff = (tv2.tv_sec - tv1.tv_sec)*1000 + (tv2.tv_usec - tv1.tv_usec)/1000;
+//				//printf("millsec2 = %d\n", diff);
+//			}
+		}
+		
+		
+		
+		int x = cor.x;
+		int y = cor.y;
+		 
+		//鏇濆厜鍖哄煙鍒嗘瀽 hui 2017060
+	/* 	if(x != 0 || y != 0)
+		{
+			
+			unsigned char dot_x = (x*17)/FRAME_W;
+			unsigned char dot_y = (y*15)/FRAME_H;
+			int i ,j ;
+			ISP_DEV IspDev = 0;
+			ISP_EXPOSURE_ATTR_S stExpAttr;
+
+		    HI_MPI_ISP_GetExposureAttr(IspDev, &stExpAttr);
+			
+			// dpf("cor is x= %d, y = %d\n",x,y);
+			// dpf("Weighttable is w = %d, h = %d\n",dot_x,dot_y);
+		    HI_U8 weighttable[15][17]={0};
+			    
+			weighttable[dot_y][dot_x] = 2 ;
+			
+			for (i=0; i<15; i++)
+			{
+				for (j=0; j<17; j++)
+				{
+					stExpAttr.stAuto.au8Weight[i][j] = weighttable[i][j];
+				}
+			}
+
+			HI_MPI_ISP_SetExposureAttr(IspDev, &stExpAttr);	
+				
+				// for(i = 0 ; i < 15; i++)
+				// {
+					// for(j = 0 ; j < 17 ; j++)
+					// {
+						// printf(" %d",weighttable[i][j]);
+					// }
+					// printf("\n");
+				// }	
+		}
+		else{
+			// int i ,j ;
+			// ISP_DEV IspDev = 0;
+			// ISP_EXPOSURE_ATTR_S stExpAttr;	
+		// HI_U8 u8Weighttable[15][17]=
+        // {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1},
+         // {1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1},
+         // {1,1,1,1,2,2,2,2,2,2,2,2,2,1,1,1,1},
+         // {1,1,1,1,2,2,2,2,2,2,2,2,2,1,1,1,1},
+         // {1,1,1,1,2,2,2,2,2,2,2,2,2,1,1,1,1},
+         // {1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1},
+         // {1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+         // {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},};
+		 
+		  // HI_MPI_ISP_GetExposureAttr(IspDev, &stExpAttr);
+		  	 // for (i=0; i<15; i++)
+			// {
+				// for (j=0; j<17; j++)
+				// {
+					// stExpAttr.stAuto.au8Weight[i][j] = u8Weighttable[i][j];
+				// }
+			// }
+
+		// HI_MPI_ISP_SetExposureAttr(IspDev, &stExpAttr);
+		} */
+
+		
+		
+#if 0
+		if (n > 40 && n < 100 )
+		{
+			x = 200;
+			y = 200;
+		}
+		else
+		{
+			x = 0;
+			y = 0;
+		}
+#endif
+		//sprintf( g_pSysInfo->lan_config.title, "x = %d, y = %d", x, y);
+		// dpf( "x = %d, y = %d\n", x, y );
+
+		//test
+#ifdef _VO_
+	
+		static int s_x = 0, s_y = 0;
+		if (s_x != x || s_y != y)
+		{
+				// unsigned char gray = pkReturnAvrGray();
+	// dpf( "get gray is %d\n",gray);
+			set_vpss_chncrop(g_VpssGrp,VPSS_CHN_VO, x, y);
+			s_x = x;
+			s_y = y;
+		}
+#endif
+
+#ifdef _test_
+		n++;
+		if(n > 60 && n < 62)
+		{
+			s32Ret = fwrite(Image_data_ptr, u32Size, 1, fp );
+/*
+			char buf_v[640*480/2/2] = {0}, buf_u[640*480/2/2] = {0};
+
+			int z = 0;
+			for (x = 0; x < stFrameDst.u16Height/2; x++)
+			{
+				ptr = stFrameDst.pu8VirAddr[1] + stFrameDst.u16Stride[0]*x;		//uv
+
+				for (y = 0; y < stFrameDst.u16Width; y+=2)
+				{
+					buf_v[z] = *(ptr++);
+					buf_u[z] = *(ptr++);
+					z++;
+				}
+			}
+
+			s32Ret = fwrite(buf_u, sizeof(buf_u), 1, fp );
+			s32Ret = fwrite(buf_v, sizeof(buf_v), 1, fp );
+			*/
+
+			if (s32Ret != 1)
+			{
+				printf("write file failedccccccccc\n");
+				return;
+			}
+		}
+#endif			
+		 
+		HI_MPI_SYS_Munmap(Image_data_ptr, u32Size);
+
+		s32Ret = HI_MPI_VPSS_ReleaseChnFrame( g_VpssGrp, VpssChn, &stFrameInfo);
+        //s32Ret = HI_MPI_VI_ReleaseFrame(ViChn, &stFrameInfo);
+		if(s32Ret!=HI_SUCCESS)
+		{
+			sstw_error("release frame failed: %d",s32Ret);
+			return s32Ret;
+		}
+	}
+	return NULL;
+}
+
+void stop_ive()
+{
+	s_bStopSignal = false;
+}
+
+
+
