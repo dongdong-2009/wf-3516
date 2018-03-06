@@ -213,7 +213,8 @@ int LK_ReadNvm(int serial_fd,unsigned int addr,unsigned char *ReadBut)
 		//printf("addr is over \naddr is 0x0000 -0x3900\n");
 		return -1 ;
 	}
-	else{
+	else
+	{
 		addrL = addr&0xFF;
 		addrH = (addr&0xFF00)>>8;
 	}

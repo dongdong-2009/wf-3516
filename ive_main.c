@@ -45,16 +45,15 @@ int testTimer = 0;
 int g_testTimerValue = 2; //测试模式下时间延时计数
 int testTimerStatus = 1;
 
-
+bool show_test_end_flag = 0; //是否有显示测试结束画面
 bool running = 1;       //正常运行标志位
 volatile sig_atomic_t test_over = 0;
 volatile sig_atomic_t closeThread_flag = 0;
 bool activate_ok = false;
-bool keyTimer = 0; //测试模式下用于按键激活标示
+bool keyTimer = 0; //测试模式下用于按键激活标志
 int keyTimerStatus = 0;
 bool keyVal = 0;
 bool activateUserInfoFlag = 0; //是否有配置用户激活信息
-
 bool g_show_full_screen = 0;//是否显示全局画面
 
 int g_no_target_ispgain = 250;
@@ -67,7 +66,7 @@ int g_activate_number = 0;
 int lkt4200_fd ;
 
 int g_randData = 0;
-bool g_all_open_led = 0;//0-没有目标的时候 一高一低     1-全开(全高)
+bool g_all_open_led = 0;//0-没有目标的时一高一低    1-全开(全高)
 
 uint8_t *fbp = NULL;
 struct fb_fix_screeninfo finfo ;
@@ -324,7 +323,7 @@ void* thread_key_control()
 	{
 		if( 1 == closeThread_flag)
 			break;
-		if(have_key_flag) //有按键键盘接入
+		if(have_key_flag) //有键入键盘
 		{
 			unsigned char key_number = zlg7290Read();
 			//printf("key_number: %d\n", key_number);
@@ -375,9 +374,11 @@ void* thread_key_control()
 #endif //YG_BOARD
 }
 
-
-void testOverFun() //测试结束
+//测试结束进入激活界面
+void testOverFun() 
 {
+
+	show_test_end_flag = 1;
 	SAMPLE_COMM_ISP_Stop();
 	usleep(500000);
 	//return
@@ -385,8 +386,14 @@ void testOverFun() //测试结束
 	usleep(500000);
 	gpioClr(13,3);	
 	gpioClr(13,4);
+
+	unsigned char  *target_images_data = NULL;
 	
-	
+#ifdef _KEY_ACTIVATE	
+	target_images_data = activateSuccessOrPeriodEnd(NULL, 0);//测试结束
+	RaspiCamCvShowImage(target_images_data, m_CVBSW, m_CVBSH);
+#else	
+
 	
 	int act_num = 0;
 	char MyStr[5];
@@ -403,13 +410,11 @@ void testOverFun() //测试结束
 		return;
 	}
 	
-
-
 	int text_num = 0;
 	char text_buf[12];
 	strcpy(text_buf, "- - - - - -");
 
-	unsigned char  *target_images_data = NULL;
+	
 	target_images_data = keyShowNumberByCVBS(text_buf);
 	RaspiCamCvShowImage(target_images_data, m_CVBSW, m_CVBSH);
 	int input_activate_code[6];
@@ -506,7 +511,7 @@ void testOverFun() //测试结束
 						target_images_data = activatePeriodNum(act_buf);
 					}
 #else
-					target_images_data = activateSuccess(NULL);
+					target_images_data = activateSuccessOrPeriodEnd(NULL, 1);
 #ifdef _LKT4200_
 					deviceActivate(lkt4200_fd);
 #endif //_LKT4200_
@@ -584,6 +589,7 @@ void testOverFun() //测试结束
 	system("opencam.sh");
 	s_bStopSignal = true;
 	//printf("success...\n");
+#endif
 }
 
 
@@ -602,7 +608,7 @@ void printSerialCode()
 	/*	int i = 0;
 	 for (; i < 6; ++i)
 	 {
-		
+	  
 	  printf("avtivate code11:%d\n", activate_code[i]);
 	 }
 	 */	
@@ -648,13 +654,14 @@ void sigalrm_fn(int sig)
 
 
 
+
+
 void signal_key(int signum)
 {
-    
     //unsigned int i;
-
     read(fd_key, &key_array, sizeof(key_array));
-
+	static struct timeval tv_continue_start, tv_continue_end, tv_init_start;
+	static unsigned char key_cnt=0;
     
 	if( (key_array[0] == 0) || (key_array[1] == 1) )
 	{
@@ -662,9 +669,39 @@ void signal_key(int signum)
 		printf("key1 down\n");
 		printf("key2 down\n");
 #endif
-		keyVal = 1;
-		alarm(10);
-		keyTimerStatus = 1;
+		gettimeofday(&tv_continue_start, NULL);
+		
+		static bool key_frist_flag = 1;
+		if(1 == key_frist_flag)
+		{
+			key_frist_flag = 0;
+			tv_init_start = tv_continue_start;
+		}
+		else
+		{
+			unsigned int diff = 0;
+			if (tv_continue_start.tv_sec == tv_init_start.tv_sec)
+			{
+				diff = (tv_continue_start.tv_usec - tv_init_start.tv_usec)/1000;
+			}
+			else
+			{
+				diff = (tv_continue_start.tv_sec - tv_init_start.tv_sec)*1000 + (tv_continue_start.tv_usec - tv_init_start.tv_usec)/1000;
+			}
+			//if (1 == testTimerStatus)
+			{
+				if(diff < 1000)
+				{
+					key_cnt++;
+					
+				}
+				else
+				{
+					key_cnt = 0;
+				}
+			}
+			tv_init_start = tv_continue_start;
+		}
 	}
 	else if( (key_array[0] == 0x80) || (key_array[1] == 0x81) )
 	{
@@ -672,45 +709,67 @@ void signal_key(int signum)
 		printf("key1 up\n");
 		printf("key2 up\n");
 #endif
-		if (keyVal)
+		gettimeofday(&tv_continue_end, NULL);
+		unsigned int diff = 0;
+		if (tv_continue_end.tv_sec == tv_continue_start.tv_sec)
 		{
-			keyVal = 0;
+			diff = (tv_continue_end.tv_usec - tv_continue_start.tv_usec)/1000;
+		}
+		else
+		{
+			diff = (tv_continue_end.tv_sec - tv_continue_start.tv_sec)*1000 + (tv_continue_end.tv_usec - tv_continue_start.tv_usec)/1000;
+		}
+		//printf("key millsec = %d, key:%d\n", diff, key_cnt);
 		
-			if (keyTimer)
+		if(key_cnt == 0 && diff > 5*1000)
+		{
+			//printf("leave the factory is ok!!\n");
+		}
+		else
+		{
+			if(diff < 1000)
 			{
-				alarm(0);
-				keyTimer = 0;
-				
-				
-				unsigned char  *target_images_data = activateSuccess(NULL);
-#ifdef _LKT4200_
-				deviceActivate(lkt4200_fd);
-#endif //_LKT4200_
-
-				RaspiCamCvShowImage(target_images_data, m_CVBSW, m_CVBSH);
-				sleep(5);
-				if (0 == running)
+				if(key_cnt == 2)
 				{
-					testTimerStatus = 0;
-					running = 1;
-					activate_ok = true;
-				}
-
+					//printf("activate is ok!\n");
+					if (show_test_end_flag == 0)
+					{
+						SAMPLE_COMM_ISP_Stop();
+						usleep(500000);
+						//return
+						RaspiCamDisInit();
+						usleep(500000);
+					}
+					
+					
+					unsigned char  *target_images_data = activateSuccessOrPeriodEnd(NULL, 1);
+#ifdef _LKT4200_
+					deviceActivate(lkt4200_fd);
+#endif //_LKT4200_
+					RaspiCamCvShowImage(target_images_data, m_CVBSW, m_CVBSH);
+					sleep(2);
+					if (0 == running)
+					{
+						testTimerStatus = 0;
+						running = 1;
+						activate_ok = true;
+					}
 #ifdef _PRINTF
-				printf("activate is ok!\n");
+					printf("activate is ok!\n");
 #endif
-				
-				system("opencam.sh");
-				s_bStopSignal = true;
+					close(fd_key);
+					system("opencam.sh");
+					s_bStopSignal = true;
+					key_cnt= 0;
+				}
+			}
+			else
+			{
+				key_cnt = 0;
 			}
 		}
-
 	}
-
-
 }
-
-
 
 
 void initIIC()
@@ -727,10 +786,10 @@ void initIIC()
 void keyInit()
 { 
 #ifdef _KEY_ACTIVATE
-	system("rmmod btn_drv.ko");
-	system("insmod btn_drv.ko");
+	//system("rmmod /komod/btn_drv.ko");
+	//system("insmod /komod/btn_drv.ko");
 	int flag;
-		   
+	
 	fd_key = open("/dev/buttons", O_RDWR);
 	if (fd_key < 0)
 	{
@@ -743,8 +802,8 @@ void keyInit()
 #endif
 }
 
-	   
-//时钟芯片初始化	   
+
+//时钟芯片初始化 
 void clockInit()
 {
 #ifndef YG_BOARD
@@ -758,12 +817,12 @@ void setClockInitTime()
 {
 #ifndef YG_BOARD
 	Timer t ;
-	t.second  = 0x59;//秒
-	t.minute  = 0x04;//分
-	t.hour    = 0x22 ;//时
-	t.day = 0x23;//日
-	t.month=0x06;//月
-	t.year=0x15;//年
+	t.second  = 0x59;//秒	
+	t.minute  = 0x04;//分	
+	t.hour    = 0x22;//时
+	t.day = 0x23;//天	
+	t.month=0x06;//月	
+	t.year=0x15;//年	
 	setTime(&t);
 #endif
 	//char timer[100]={0};
@@ -775,7 +834,7 @@ void init4200()
 {
 	
 	char buf[1024];
-	int len =  0,j=0;
+	int len = 0,j=0;
 	unsigned char cmd_write[64] = {0x00, 0x84, 0x00, 0x00, 0x08};
 	unsigned char cmdStart[5] = {0x80,0x08,0x00,0x00,0x01};
 	unsigned char cmdGetId[1] = {0x04};
@@ -818,7 +877,7 @@ void init4200()
 		
 		if (-1 == access(path,0))
 		{
-			//激活配置文件没有找到---程序不执行检测
+			//激活配置文件没有找到--程序不执行检测
 			running = 0;
 		}
 		else
@@ -855,7 +914,7 @@ void init4200()
 			
 		}
 		//EX_DAY0, EX_DAY1, EX_DAY3, EX_DAY5, EX_DAY7, EX_DAY30, EX_DAY356, EX_DAY_FOREVER
-		//已结有注册---判断试用类型
+		//已经输入激活码--判断试用类型
 		int activateType = getMachineActivateType(g_period_type_int);
 		if(0 == activateType)
 			g_period_type_int = 0;
@@ -865,7 +924,7 @@ void init4200()
 			printf("device is activated...\n");
 #endif
 			testTimerStatus = 0;
-			return; //已经永久激活
+			return; //已经永久激活	
 		}
 		else if(2 == activateType)
 		{
@@ -900,9 +959,9 @@ void init4200()
 	}
 	else
 	{	
-		
+#ifdef _KEY_ACTIVATE
 		keyInit();
-		
+#else	
 		
 		unsigned char ret = zlg7290check();
 		if (1 == ret )
@@ -910,6 +969,7 @@ void init4200()
 			pthread_t key_tid;
 	    	start_task(&key_tid, thread_key_control, (void*)NULL);
 		}
+#endif //_KEY_ACTIVATE
 		signal(SIGALRM, sigalrm_fn);
 		alarm(60);
 	}
@@ -960,13 +1020,7 @@ void initIO()
 		gpioClr(13,3);
 		gpioSet(13,4);
 	}
-#endif	
-	
-	
-	
-
-	
-	
+#endif		
 #endif
 
 }
@@ -976,7 +1030,7 @@ void runFlagFun()
 	if (1 == test_over)  //测试结束
 	{
 		test_over = 0;
-		closeThread_flag = 1;//关闭键盘检测线程
+		closeThread_flag = 1;//关闭键盘检测线程		
 		running = 0;
 		//system(" fbi -T 2 -d /dev/fb0 -noverbose -a  /app/test.png");
 		testOverFun();
@@ -986,7 +1040,7 @@ void runFlagFun()
 }
 
 
-void openCameraInit()
+void noDetectCameraInit()
 {
 	set_picture_a_gain(g_no_target_again);
 	set_picture_isp_gain(g_no_target_ispgain);
@@ -1062,6 +1116,71 @@ void sendInfoToPcByNet(unsigned char gray)
 #endif	
 }
 
+//没有目标时，摄像头的参数值
+void setNoDetectCameraParam()
+{
+	set_picture_a_gain(g_no_target_again);
+	set_picture_isp_gain(g_no_target_ispgain);
+	set_picture_expo_time_mamu(g_no_target_shutter);
+}
+
+//有目标时，摄像头的参数值
+void setHaveDetectCameraParam()
+{
+	set_picture_a_gain(g_pSysInfo->a_gain);
+	set_picture_isp_gain(g_pSysInfo->isp_gain);
+}
+
+//更新红外灯状态--没有目标时  LED一路关一路开
+void setNoDetectLedState()
+{
+
+#ifdef YG_BOARD
+	system("himm 0x201c03FC   0x8f");
+#elif defined  VERSION_20170802
+	gpioSet(13,3);gpioClr(13,4);
+#elif defined VERSION_20171218
+	gpioClr(13,3);gpioSet(13,4);
+#endif		
+
+}
+
+//更新红外灯状态--有目标时  LED二路全开
+void setHaveDetectLedState()
+{
+	
+#ifdef YG_BOARD
+	system("himm 0x201c03FC   0xff");
+#elif defined  VERSION_20170802
+	gpioSet(13,3);gpioSet(13,4);
+#elif defined VERSION_20171218
+	gpioSet(13,3);gpioSet(13,4);
+#endif
+
+
+}
+
+//当前帧没有目标
+void updateNoDetect()
+{
+	
+	setNoDetectCameraParam();//设置无目标时的摄像头参数
+	if( 0 == g_all_open_led )
+		setNoDetectLedState(); //设置无目标时的LED状态
+	
+}
+
+
+//当前帧有目标
+void updateHaveDetect()
+{
+	
+	setHaveDetectCameraParam();//设置检测到目标时的摄像头参数
+	if( 0 == g_all_open_led )
+		setHaveDetectLedState(); //设置检测到目标时的LED状态
+	
+}
+
 void updateStateByDetectResult(int x, int y)
 {
 	static int s_x = -1, s_y = -1;
@@ -1070,67 +1189,23 @@ void updateStateByDetectResult(int x, int y)
 			s_x = x;
 	s_y = y;
 	static bool frist_detect_flag = 1;
-	if (x == 0 && y == 0)  //没有目标时
+	if (x == 0 && y == 0)  //没有目标时	
 	{
-		if (g_all_open_led == 0)
+		if (0 == frist_detect_flag)
 		{
-			if (0 == frist_detect_flag)
-			{
-				frist_detect_flag = 1;
-				set_picture_a_gain(g_no_target_again);
-				set_picture_isp_gain(g_no_target_ispgain);
-#ifdef YG_BOARD
-				if (g_all_open_led == 1)
-					system("himm 0x201c03FC   0xff");
-				else
-					system("himm 0x201c03FC   0x8f");
-#else	
-#ifdef VERSION_20170802
-				if (g_all_open_led == 1)
-				{
-					gpioSet(13,3);
-					gpioSet(13,4);
-				}
-				else
-				{
-					gpioSet(13,3);
-					gpioClr(13,4);
-				}
-#endif
-#ifdef VERSION_20171218
-				if (g_all_open_led == 1)
-				{
-					gpioSet(13,3);
-					gpioSet(13,4);
-				}
-				else
-				{
-					gpioClr(13,3);
-					gpioSet(13,4);
-				}
-#endif					
-#endif
-			}
+			frist_detect_flag = 1;
+			updateNoDetect();
 		}
 	}
 	else
 	{
-		if (g_all_open_led == 0)
+		if (1 == frist_detect_flag)
 		{
-			if (1 == frist_detect_flag)
-			{
-				//第一次检测到目标的时候
-				frist_detect_flag = 0;
-				set_picture_a_gain(g_pSysInfo->a_gain);
-				set_picture_isp_gain(g_pSysInfo->isp_gain);
-#ifdef YG_BOARD
-				system("himm 0x201c03FC   0xff");
-#else
-				gpioSet(13,3);	
-				gpioSet(13,4);
-#endif
-			}
+			//第一次检测到目标
+			frist_detect_flag = 0;
+			updateHaveDetect();
 		}
+		
 	}
 	
 	
@@ -1176,7 +1251,7 @@ void detectFun(void)
 	}
 
 
-	openCameraInit();
+	updateNoDetect();
 
 
 
@@ -1191,9 +1266,9 @@ void detectFun(void)
 			//s32Ret = HI_MPI_VI_GetFrame(ViChn, &stFrameInfo, s32GetFrameMilliSec);
 			if (HI_SUCCESS != s32Ret)
 			{
-//#ifdef _PRINTF
+#ifdef _PRINTF
 				sstw_error("HI_MPI_VPSS_GetChnFrame fail,Error(%#x)",s32Ret);
-//#endif
+#endif
 				usleep(s32GetFrameMilliSec);
 				continue;
 			}
@@ -1215,12 +1290,12 @@ void detectFun(void)
 
 			
 			/*
-			 
+			  
 			   HI_MPI_VPSS_ReleaseChnFrame( g_VpssGrp, VpssChn, &stFrameInfo);
 			   usleep(s32GetFrameMilliSec);
-			 
+			  
 			   continue;
-			 
+			  
 			*/
 			char* data_ptr = stFrameInfo.stVFrame.u32PhyAddr[0];
 			char* Image_data_ptr = (HI_CHAR*) HI_MPI_SYS_Mmap(data_ptr, u32Size);
@@ -1252,11 +1327,11 @@ void detectFun(void)
 			/*
 			   if (g_pre_br != g_pSysInfo->viewcolor.brightness || g_pre_shutter != g_pSysInfo->exposure_time_manu)
 			   {
-				g_pre_shutter = g_pSysInfo->exposure_time_manu;
-				g_pre_br = g_pSysInfo->viewcolor.brightness;
-				updateCnt = 0;
+			 g_pre_shutter = g_pSysInfo->exposure_time_manu;
+			 g_pre_br = g_pSysInfo->viewcolor.brightness;
+			 updateCnt = 0;
 			   }
-			 
+			  
 			*/
 			
 #ifdef SINGLE_OUTPUT

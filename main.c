@@ -103,9 +103,6 @@ void processCommandLine(int argc, const char **argv)
 	g_pSysInfo->sharpen = getParamVal("-sh", argc, argv, 21); //锐度
 	//printf("sharpen:%d\n", g_pSysInfo->sharpen);
 	g_pSysInfo->nf_3d_level = getParamVal("-n3", argc, argv, 300); //3D降噪
-	g_pSysInfo->isp_gain = getParamVal("-ispg", argc, argv, 100); //ISP增益
-	g_pSysInfo->a_gain = getParamVal("-ag", argc, argv, 250); //模拟增益
-	g_pSysInfo->d_gain = getParamVal("-dg", argc, argv, 0); //数字增益
 	g_pSysInfo->defog_flag = getParamVal("-defog", argc, argv, 1); //去雾
 	g_pSysInfo->dis_flag = getParamVal("-dis", argc, argv, 1); //防抖
 	g_pSysInfo->dci_flag = getParamVal("-dci", argc, argv, 0); //动态对比度增强
@@ -115,6 +112,11 @@ void processCommandLine(int argc, const char **argv)
 	g_pSysInfo->viewcolor.saturation = getParamVal("-sa", argc, argv, 100); //饱和度
 	g_pSysInfo->viewcolor.hue = getParamVal("-hue", argc, argv, 90); //色度
 	
+	g_pSysInfo->isp_gain = getParamVal("-ispg", argc, argv, 100); //ISP增益
+	g_pSysInfo->a_gain = getParamVal("-ag", argc, argv, 250); //模拟增益
+	g_pSysInfo->d_gain = getParamVal("-dg", argc, argv, 0); //数字增益
+	
+	
 	g_target_br = getParamVal("-tbr", argc, argv, 100); //目标亮度值 --自动逼近
 	unsigned char no_target_high_br = getParamVal("-nhbr", argc, argv, 70);  //没有目标时，频闪--高亮
 	unsigned char no_target_low_br = getParamVal("-nlbr", argc, argv, 20);   //没有目标时，频闪--低亮
@@ -123,13 +125,15 @@ void processCommandLine(int argc, const char **argv)
 	g_no_target_ispgain = getParamVal("-nispg", argc, argv, 250); //没有目标时，频闪--ISP增益
 	g_no_target_again = getParamVal("-nag", argc, argv, 400); //没有目标时，频闪--模拟增益
 	g_no_target_shutter = getParamVal("-nshutter", argc, argv, 30000);//
+	
+	///*
 	if(g_all_open_led == 1)
 	{
 		g_no_target_ispgain = g_pSysInfo->isp_gain;
 		g_no_target_again = g_pSysInfo->a_gain;
 		g_no_target_shutter = g_pSysInfo->exposure_time_manu;
 	}
-	
+	//*/
 
 	unsigned char target_high_br = getParamVal("-hbr", argc, argv, 80);  //亮度参数上限值
 	unsigned char target_low_br = getParamVal("-lbr", argc, argv, 10);   //亮度参数下限值

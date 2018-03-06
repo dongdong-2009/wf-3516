@@ -227,11 +227,13 @@ HI_S32 set_picture_color(COLOR_CONFG* cc)
 		
 	stCscAttr.u32ContrVal	= color_c.contrast;
 	stCscAttr.u32HueVal		= color_c.hue;
+	//stCscAttr.u32LumaVal = color_c.brightness;
+	///*
 	if (color_c.brightness > 10)
 		stCscAttr.u32LumaVal = color_c.brightness - 10;
 	else
 		stCscAttr.u32LumaVal = 1;
-
+	//*/
 	stCscAttr.u32SatuVal = color_c.saturation;			
 	stCscAttr.enViCscType = VI_CSC_TYPE_709;
 	/* Set attribute for vi CSC attr */
